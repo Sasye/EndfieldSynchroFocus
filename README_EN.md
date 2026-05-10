@@ -20,11 +20,8 @@ bin/d3dcompiler_47.dll   → Game Directory/d3dcompiler_47.dll
 ## Configuration
 
 Open `plugin/synchro_focus_config.txt` to customize the **Ultimate Skill** keybinds for characters 1 through 4.
-By default, the ultimate skills are bound to the `1`, `3`, `4`, and `5` keys.
-
-**What about Tactical Skills?**
-Tactical skills continue to use your **in-game native keybindings** (e.g., `Q` / `2` / `R` / `C`).
-Press the native keys to cast tactical skills instantly, and press your `synchro_focus_config.txt` configured keys to cast ultimate skills instantly. No more long-press delays!
+By default, the ultimate skills are bound to the `5`, `6`, `7`, and `8` keys.
+You can freely adjust the keybinds to your liking, for example, setting Tactical Skills to `Q`, `2`, `R`, `C` and Ultimate Skills to `1`, `3`, `4`, `5`.
 
 ## Disclaimer
 

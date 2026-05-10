@@ -8,7 +8,7 @@ debug_log=1
 
 # 自定义终结技快捷键 (无需加 Alt)
 # 当处于战斗状态时，按下以下快捷键将释放对应角色的终结技
-ult_1_key=1
-ult_2_key=3
-ult_3_key=4
-ult_4_key=5
+ult_1_key=5
+ult_2_key=6
+ult_3_key=7
+ult_4_key=8
