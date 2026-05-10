@@ -1,4 +1,4 @@
-# Endfield Skill Split Configuration / 战技终结技按键分离配置
+# Endfield Synchro Focus Configuration
 
 # 启用插件 (1=启用, 0=禁用)
 enabled=1
