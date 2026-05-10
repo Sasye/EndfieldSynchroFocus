@@ -1,0 +1,14 @@
+# Endfield Skill Split Configuration / 战技终结技按键分离配置
+
+# 启用插件 (1=启用, 0=禁用)
+enabled=1
+
+# 调试日志 (用于定位 Il2Cpp 地址，输出到 skill_split_log.txt)
+debug_log=1
+
+# 自定义终结技快捷键 (无需加 Alt)
+# 当处于战斗状态时，按下以下快捷键将释放对应角色的终结技
+ult_1_key=1
+ult_2_key=3
+ult_3_key=4
+ult_4_key=5
