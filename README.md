@@ -8,7 +8,7 @@
 
 将以下文件复制到游戏目录（`Endfield.exe` 所在文件夹）：
 
-```text
+```
 bin/synchro_focus.dll    → 游戏目录/plugin/synchro_focus.dll
 synchro_focus_config.txt → 游戏目录/plugin/synchro_focus_config.txt
 bin/vulkan-1.dll         → 游戏目录/vulkan-1.dll
@@ -19,9 +19,12 @@ bin/d3dcompiler_47.dll   → 游戏目录/d3dcompiler_47.dll
 
 ## 配置
 
-打开 `plugin/synchro_focus_config.txt`，你可以自定义战技和终结技的快捷键码。默认键位：
-- **战技 (Tactical)**：`E` 键
-- **终结技 (Ultimate)**：`Q` 键
+打开 `plugin/synchro_focus_config.txt`，你可以为 1~4 号位干员分别自定义**终结技**的专属释放快捷键。
+默认情况下，终结技被绑定在键盘的 `1`、`3`、`4`、`5` 上（2号位默认预留给了别的按键所以用了3）。
+
+**战技（Tactical）呢？**
+战技继续使用你**在游戏内原生按键设置**里绑定的键（比如 `Q` / `2` / `R` / `C`）。
+只要你按原生的键，就会照常释放战技；只要你按 `synchro_focus_config.txt` 里设置的键，就会瞬间释放终结技，再也不需要忍受长按的延迟了！
 
 ## 免责声明
 

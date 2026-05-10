@@ -8,7 +8,7 @@ Splits the default "Short-press for Tactical Skill / Long-press for Ultimate Ski
 
 Copy the following files to the game directory (same folder as `Endfield.exe`):
 
-```text
+```
 bin/synchro_focus.dll    → Game Directory/plugin/synchro_focus.dll
 synchro_focus_config.txt → Game Directory/plugin/synchro_focus_config.txt
 bin/vulkan-1.dll         → Game Directory/vulkan-1.dll
@@ -19,9 +19,12 @@ bin/d3dcompiler_47.dll   → Game Directory/d3dcompiler_47.dll
 
 ## Configuration
 
-Open `plugin/synchro_focus_config.txt` to customize your keybinds. Default bindings:
-- **Tactical Skill**: `E` key
-- **Ultimate Skill**: `Q` key
+Open `plugin/synchro_focus_config.txt` to customize the **Ultimate Skill** keybinds for characters 1 through 4.
+By default, the ultimate skills are bound to the `1`, `3`, `4`, and `5` keys.
+
+**What about Tactical Skills?**
+Tactical skills continue to use your **in-game native keybindings** (e.g., `Q` / `2` / `R` / `C`).
+Press the native keys to cast tactical skills instantly, and press your `synchro_focus_config.txt` configured keys to cast ultimate skills instantly. No more long-press delays!
 
 ## Disclaimer
 
