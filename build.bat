@@ -1,17 +1,45 @@
 @echo off
+
+setlocal enabledelayedexpansion
+
 echo ==========================================
 echo   Endfield SynchroFocus Build Script
 echo ==========================================
 echo.
 
 :: Set up MSVC environment
-call "C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat" >nul 2>nul
+set "vswhere=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
+set "vcvars="
+
+if exist "%vswhere%" (
+    for /f "usebackq tokens=*" %%i in (`"%vswhere%" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
+        set "install_path=%%i"
+    )
+)
+
+if defined install_path (
+    set "vcvars=!install_path!\VC\Auxiliary\Build\vcvars64.bat"
+)
+
+if defined vcvars if exist "!vcvars!" (
+    echo [INFO] Found MSVC at: "!vcvars!"
+    call "!vcvars!" >nul
+)
 
 where cl >nul 2>nul
 if %errorlevel% neq 0 (
-    echo [ERROR] cl.exe not found!
-    echo Please run this from "x64 Native Tools Command Prompt for VS"
-    echo Or run: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
+    echo [WARN] Automatic detection failed.
+    set /p "user_path=Please drag and drop vcvars64.bat here and press Enter: "
+    if exist "!user_path!" (
+        call "!user_path!" >nul
+    )
+)
+
+where cl >nul 2>nul
+if %errorlevel% equ 0 (
+    echo [SUCCESS] MSVC Environment Ready.
+) else (
+    echo [ERROR] Failed to set up MSVC environment.
     pause
     exit /b 1
 )
