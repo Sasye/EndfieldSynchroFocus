@@ -4,6 +4,8 @@
 
 将《明日方舟：终末地》原本的“短按战技 / 长按终结技”的按键绑定拆分为两个独立的短按键，让你能更精准、迅速地释放技能。
 
+> 使用 [Applepie Manager](https://github.com/Sasye/ApplepieManager) 来便捷地管理和配置此插件。
+
 ## 安装
 
 将以下文件复制到游戏目录（`Endfield.exe` 所在文件夹）：

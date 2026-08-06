@@ -4,6 +4,8 @@ English | [中文](README.md)
 
 Splits the default "Short-press for Tactical Skill / Long-press for Ultimate Skill" mechanic in *Arknights: Endfield* into two independent short-press keybinds, allowing for faster and more precise skill execution.
 
+> Use [Applepie Manager](https://github.com/Sasye/ApplepieManager) to conveniently manage and configure this plugin.
+
 ## Installation
 
 Copy the following files to the game directory (same folder as `Endfield.exe`):
