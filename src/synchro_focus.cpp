@@ -1,4 +1,6 @@
-#define _CRT_SECURE_NO_WARNINGS
+﻿#define _CRT_SECURE_NO_WARNINGS
+#define APPLEPIE_PLUGIN_IMPL
+#include "applepie_mgr.h"
 #include "MinHook.h"
 #include <fstream>
 #include <string>
@@ -9,6 +11,7 @@ extern "C" __declspec(dllexport) void DummyExport() {}
 int g_enabled = 1;
 int g_debugLog = 1;
 int g_ult1_vk = '1', g_ult2_vk = '3', g_ult3_vk = '4', g_ult4_vk = '5';
+static volatile bool g_pluginActive = true;
 
 void Log(const char *msg) {
   if (g_debugLog) {
@@ -17,7 +20,19 @@ void Log(const char *msg) {
   }
 }
 
-int CharToVK(char c) {
+// Parse VK value from config: supports integer (112), hex (0x70), or single char (Q, 1)
+int ParseVK(const std::string& val) {
+  if (val.empty()) return 0;
+  // Hex: 0x...
+  if (val.size() >= 3 && val[0] == '0' && (val[1] == 'x' || val[1] == 'X')) {
+    return (int)strtol(val.c_str(), nullptr, 16);
+  }
+  // Multi-char numeric: decimal integer (e.g. "112" for F1)
+  if (val.size() >= 2 && val[0] >= '0' && val[0] <= '9') {
+    return std::stoi(val);
+  }
+  // Single char: 'Q' -> 0x51, '1' -> 0x31, etc.
+  char c = val[0];
   if (c >= 'a' && c <= 'z') return c - 'a' + 'A';
   return c;
 }
@@ -34,10 +49,10 @@ void LoadConfig() {
     while (!val.empty() && (val.back() == '\r' || val.back() == '\n' || val.back() == ' ')) val.pop_back();
     if (key == "enabled") g_enabled = std::stoi(val);
     else if (key == "debug_log") g_debugLog = std::stoi(val);
-    else if (key == "ult_1_key" && !val.empty()) g_ult1_vk = CharToVK(val[0]);
-    else if (key == "ult_2_key" && !val.empty()) g_ult2_vk = CharToVK(val[0]);
-    else if (key == "ult_3_key" && !val.empty()) g_ult3_vk = CharToVK(val[0]);
-    else if (key == "ult_4_key" && !val.empty()) g_ult4_vk = CharToVK(val[0]);
+    else if (key == "ult_1_key" && !val.empty()) g_ult1_vk = ParseVK(val);
+    else if (key == "ult_2_key" && !val.empty()) g_ult2_vk = ParseVK(val);
+    else if (key == "ult_3_key" && !val.empty()) g_ult3_vk = ParseVK(val);
+    else if (key == "ult_4_key" && !val.empty()) g_ult4_vk = ParseVK(val);
   }
 }
 
@@ -171,7 +186,9 @@ static void LateTick_KeyCheck() {
 }
 
 void hkLateTick(void* __this, void* arg1, void* methodInfo) {
-  LateTick_KeyCheck();
+  if (g_pluginActive) {
+    LateTick_KeyCheck();
+  }
   oLateTick(__this, arg1, methodInfo);
 }
 
@@ -337,4 +354,44 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID reserved) {
     CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Setup, NULL, 0, NULL);
   }
   return TRUE;
+}
+
+// ============================================================================
+// Plugin Manager Interface
+// ============================================================================
+static AP_PluginInfo s_pluginInfo = {
+    APPLEPIE_PLUGIN_API_VERSION,
+    "synchro_focus",
+    "Synchro Focus",
+    "Bind ultimates to independent keys",
+    "synchro_focus_config.txt",
+    true  // supports hot disable
+};
+
+APPLEPIE_PLUGIN_EXPORT AP_PluginInfo* AP_GetPluginInfo() {
+    return &s_pluginInfo;
+}
+
+APPLEPIE_PLUGIN_EXPORT bool AP_PluginEnable() {
+    g_pluginActive = true;
+    return true;
+}
+
+APPLEPIE_PLUGIN_EXPORT bool AP_PluginDisable() {
+    g_pluginActive = false;
+    return true;
+}
+
+APPLEPIE_PLUGIN_EXPORT bool AP_ReloadConfig() {
+    LoadConfig();
+    return true;
+}
+
+APPLEPIE_PLUGIN_EXPORT int AP_GetHotkeys(AP_HotkeyInfo* outArray, int maxCount) {
+    if (!outArray || maxCount < 4) return 0;
+    outArray[0] = {"Ultimate 1", "ult_1_key", g_ult1_vk};
+    outArray[1] = {"Ultimate 2", "ult_2_key", g_ult2_vk};
+    outArray[2] = {"Ultimate 3", "ult_3_key", g_ult3_vk};
+    outArray[3] = {"Ultimate 4", "ult_4_key", g_ult4_vk};
+    return 4;
 }
