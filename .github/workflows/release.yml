@@ -24,9 +24,12 @@ jobs:
       run: |
         mkdir release_pkg
         copy bin\synchro_focus.dll release_pkg\
-        copy bin\d3dcompiler_47.dll release_pkg\
-        copy bin\vulkan-1.dll release_pkg\
         copy synchro_focus_config.txt release_pkg\
+        copy README.md release_pkg\
+        copy README_EN.md release_pkg\
+        copy LICENSE release_pkg\
+        copy deps\applepie_sdk\LICENSE release_pkg\ApplepieSDK-LICENSE
+        copy deps\applepie_sdk\README.md release_pkg\ApplepieSDK-README.md
         Compress-Archive -Path release_pkg\* -DestinationPath "EndfieldSynchroFocus_${{ github.ref_name }}.zip"
 
     - name: Publish to GitHub Releases
